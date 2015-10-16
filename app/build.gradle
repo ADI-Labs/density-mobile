@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.adicu.densitymobile"
+        applicationId "com.adicu.density"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1

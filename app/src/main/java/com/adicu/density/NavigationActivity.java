@@ -63,25 +63,6 @@ public class NavigationActivity extends AppCompatActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
 
-//        try {
-////            String foo = "http://density.adicu.com/window/2014-10-10T08:00/2014-10-10T21:30/building/" +
-////                    "75?auth_token=" + API_KEY;
-//            String foo = "https://google.com";
-//            URL url = new URL(foo);
-//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//            connection.setReadTimeout(10000);
-//            connection.setConnectTimeout(15000);
-//            connection.setRequestMethod("POST");
-//            connection.setDoInput(true);
-//            connection.setDoOutput(true);
-//            connection.connect();
-////            InputStream stream = urlConnection.getInputStream();
-////            InputStream inStream = new BufferedInputStream(urlConnection.getInputStream());
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         HttpRequest request = new HttpRequest();
         request.execute();
     }

@@ -19,8 +19,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class NavigationActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+    private static final String API_KEY = "8kLPMASPKQZEBORL8JXGOEA3X72TY5EJ1";
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -53,15 +61,38 @@ public class NavigationActivity extends AppCompatActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+
+//        try {
+////            String foo = "http://density.adicu.com/window/2014-10-10T08:00/2014-10-10T21:30/building/" +
+////                    "75?auth_token=" + API_KEY;
+//            String foo = "https://google.com";
+//            URL url = new URL(foo);
+//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//            connection.setReadTimeout(10000);
+//            connection.setConnectTimeout(15000);
+//            connection.setRequestMethod("POST");
+//            connection.setDoInput(true);
+//            connection.setDoOutput(true);
+//            connection.connect();
+////            InputStream stream = urlConnection.getInputStream();
+////            InputStream inStream = new BufferedInputStream(urlConnection.getInputStream());
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        HttpRequest request = new HttpRequest();
+        request.execute();
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        fragmentManager.beginTransaction()
+//                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+//                .commit();
     }
 
     public void onSectionAttached(int number) {

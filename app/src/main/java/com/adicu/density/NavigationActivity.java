@@ -4,27 +4,20 @@ import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
+import static com.adicu.density.RequestParameter.*;
 
 public class NavigationActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -62,8 +55,20 @@ public class NavigationActivity extends AppCompatActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
+        // Test create API url.
+        DensityRequest request = new DensityRequest(TimeInterval.WINDOW, Grouping.BUILDING);
 
-        HttpRequest request = new HttpRequest();
+        GregorianCalendar start = new GregorianCalendar(2015, 9, 30);
+        Date startDate = start.getTime();
+        request.setStartTime(startDate);
+
+        GregorianCalendar end = new GregorianCalendar(2015, 9, 31);
+        Date endDate = end.getTime();
+        request.setEndTime(endDate);
+
+        request.setBuilding(Building.JOHN_JAY);
+
+        Log.i("DensityRequest", request.toString());
         request.execute();
     }
 

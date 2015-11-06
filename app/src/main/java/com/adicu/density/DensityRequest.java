@@ -3,6 +3,10 @@ package com.adicu.density;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +31,9 @@ public class DensityRequest extends AsyncTask<Object, Void, Boolean>{
     private static final String BASE_URL = "http://density.adicu.com";
     // API key
     private static final String API_KEY = "6WMDXJOM7WDP6NBZVOATYH9PUGIYA1I8";
+    // ISO 8601 date format required for API calls
+    private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm";
+    private final SimpleDateFormat dateFormatter = new SimpleDateFormat(DATE_FORMAT);
 
     // Choices: latest, window, or day.
     private TimeInterval mTimeInterval;
@@ -43,6 +50,16 @@ public class DensityRequest extends AsyncTask<Object, Void, Boolean>{
     // Building to get info from.
     private Building mBuilding;
 
+    // JSONObject representing the data from the most recent request made.
+    private JSONObject mJSONObject;
+
+    /**
+     * Creates an HTTP request with default time interval set to latest and no grouping.
+     */
+    public DensityRequest() {
+        mTimeInterval = TimeInterval.LATEST;
+    }
+
     /**
      * Creates an HTTP request with the desired parameters.
      * @param timeInterval the time interval to fetch data from.
@@ -57,6 +74,7 @@ public class DensityRequest extends AsyncTask<Object, Void, Boolean>{
      * @param params unused.
      * @return true if the information was successfully retrieved; false otherwise.
      */
+    @Override
     protected Boolean doInBackground(Object... params) {
         Boolean isFetchSuccess = false;
 
@@ -64,6 +82,10 @@ public class DensityRequest extends AsyncTask<Object, Void, Boolean>{
             String urlString = toString();
             URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+            // Set timeout
+            connection.setConnectTimeout(10000);
+            connection.setReadTimeout(10000);
 
             InputStream inStream = connection.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(inStream, "UTF-8"));
@@ -74,7 +96,8 @@ public class DensityRequest extends AsyncTask<Object, Void, Boolean>{
             while((inputString = br.readLine()) != null) {
                 sb.append(inputString);
             }
-            Log.i("DensityRequest", sb.toString());
+            mJSONObject = new JSONObject(sb.toString());
+
             isFetchSuccess = true;
         }
         catch (MalformedURLException e) {
@@ -83,7 +106,26 @@ public class DensityRequest extends AsyncTask<Object, Void, Boolean>{
         catch (IOException e) {
             e.printStackTrace();
         }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
         return isFetchSuccess;
+    }
+
+    /**
+     * When the request has finished execution, do something.
+     * @param isSuccessful true if request was successfully executed; false otherwise.
+     */
+    @Override
+    protected void onPostExecute(Boolean isSuccessful) {
+        super.onPostExecute(isSuccessful);
+
+        if (isSuccessful) {
+            Log.i("DensityRequest", "Fetched successfully\n" + mJSONObject.toString());
+        }
+        else {
+            Log.i("DensityRequest", "Did not fetch successfully.");
+        }
     }
 
     // Getters and setters for request parameters.
@@ -204,6 +246,7 @@ public class DensityRequest extends AsyncTask<Object, Void, Boolean>{
      * Returns the full URL for the request.
      * @return the full URL for the request.
      */
+    @Override
     public String toString() {
         // Start with base URL.
         StringBuilder sb = new StringBuilder(BASE_URL);
@@ -213,24 +256,24 @@ public class DensityRequest extends AsyncTask<Object, Void, Boolean>{
 
         // Append additional time interval arguments (required for window/day).
         if (mTimeInterval == TimeInterval.WINDOW) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-            sb.append("/" + dateFormat.format(mStartTime));
-            sb.append("/" + dateFormat.format(mEndTime));
+            sb.append("/" + dateFormatter.format(mStartTime));
+            sb.append("/" + dateFormatter.format(mEndTime));
         }
         else if (mTimeInterval == TimeInterval.DAY) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm");
-            sb.append("/" + dateFormat.format(mDay));
+            sb.append("/" + dateFormatter.format(mDay));
         }
 
-        // Append grouping
-        sb.append(mGrouping);
+        if (mGrouping != null) {
+            // Append grouping
+            sb.append(mGrouping);
 
-        // Append additional grouping arguments (required).
-        if (mGrouping == Grouping.GROUP) {
-            sb.append(mGroup);
-        }
-        else if (mGrouping == Grouping.BUILDING) {
-            sb.append(mBuilding);
+            // Append additional grouping arguments (required).
+            if (mGrouping == Grouping.GROUP) {
+                sb.append(mGroup);
+            }
+            else if (mGrouping == Grouping.BUILDING) {
+                sb.append(mBuilding);
+            }
         }
 
         // Add API key info.

@@ -13,9 +13,12 @@ public class RequestParameter {
      * WINDOW. Use the following date format:
      * The date should be given in Eastern Standard Time (EST). Additionally, the date must be
      * in ISO 8601 format: YYYY-MM-DD or YYYY-MM-DDThh:mm
+     *
+     * DAY gets the date for a day. You must specify a day using the following date format:
+     *
      */
     public enum TimeInterval {
-        LATEST("/latest"), WINDOW("/window");
+        LATEST("/latest"), WINDOW("/window"), DAY("/day");
 
         private String urlFragment;
 
@@ -34,6 +37,40 @@ public class RequestParameter {
         public String getURLFragment() {
             return urlFragment;
         }
+
+        /**
+         * Returns the URL fragment.
+         * @return the URL fragment.
+         */
+        public String toString() {
+            return urlFragment;
+        }
+    }
+
+    /**
+     * Represents the possible grouping options.
+     *
+     *
+     * BUILDING represents one building.
+     *
+     * GROUP represents one router group.
+     */
+    public enum Grouping {
+        BUILDING("/building"), GROUP("/group");
+
+        private String urlFragment;
+
+        /**
+         * Creates a Grouping with a URL fragment.
+         * @param urlFragment the URL fragment.
+         */
+        Grouping(String urlFragment) {
+            this.urlFragment = urlFragment;
+        }
+
+        public String toString() {
+            return urlFragment;
+        }
     }
 
     /**
@@ -48,6 +85,7 @@ public class RequestParameter {
 
         private String name;
         private int id;
+        private String urlFragment;
 
         /**
          * Creates a building with a name and id.
@@ -57,6 +95,7 @@ public class RequestParameter {
         Building(String name, int id) {
             this.name = name;
             this.id = id;
+            urlFragment = "/" + id;
         }
 
         /**
@@ -73,6 +112,14 @@ public class RequestParameter {
          */
         public int getID() {
             return id;
+        }
+
+        /**
+         * Returns the building ID.
+         * @return the building ID.
+         */
+        public String toString() {
+            return urlFragment;
         }
     }
 
@@ -94,8 +141,10 @@ public class RequestParameter {
         ROONE_ARLEDGE("Roone Arledge Auditorium", 85),
         SCIENCE_ENGINEERING("Science and Engineering Library", 145),
         URIS_WATSON("Uris/Watson Library", 23);
+
         private String name;
         private int id;
+        private String urlFragment;
 
         /**
          * Creates a group with a name and id.
@@ -105,6 +154,7 @@ public class RequestParameter {
         Group(String name, int id) {
             this.name = name;
             this.id = id;
+            urlFragment = "/" + id;
         }
 
         /**
@@ -121,6 +171,18 @@ public class RequestParameter {
          */
         public int getID() {
             return id;
+        }
+
+        public String getUrlFragment() {
+            return urlFragment;
+        }
+
+        /**
+         * Returns the group id.
+         * @return the group id.
+         */
+        public String toString() {
+            return urlFragment;
         }
     }
 }

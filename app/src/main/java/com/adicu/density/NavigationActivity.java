@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -30,6 +31,9 @@ public class NavigationActivity extends AppCompatActivity
     private DrawerLayout mDrawerLayout;
     private String[] mTabNames;
     private ListView mDrawerList;
+
+    // List view of all study space data.
+    private ListView mLocationListView;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -55,20 +59,26 @@ public class NavigationActivity extends AppCompatActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
+        // Get study space list view and set up list view.
+        mLocationListView = (ListView) findViewById(R.id.locationListView);
+
+        LocationListAdapter adapter = new LocationListAdapter(this, new ArrayList<DensityData>());
+        mLocationListView.setAdapter(adapter);
+
         // Test create API url.
-        DensityRequest request = new DensityRequest(TimeInterval.WINDOW, Grouping.BUILDING);
+        DensityRequest request = new DensityRequest(adapter, TimeInterval.LATEST, null);
 
-        GregorianCalendar start = new GregorianCalendar(2015, 9, 30);
-        Date startDate = start.getTime();
-        request.setStartTime(startDate);
+//        GregorianCalendar start = new GregorianCalendar(2015, 9, 30);
+//        Date startDate = start.getTime();
+//        request.setStartTime(startDate);
 
-        GregorianCalendar end = new GregorianCalendar(2015, 9, 31);
-        Date endDate = end.getTime();
-        request.setEndTime(endDate);
+//        GregorianCalendar end = new GregorianCalendar(2015, 9, 31);
+//        Date endDate = end.getTime();
+//        request.setEndTime(endDate);
+//
+//        request.setBuilding(Building.JOHN_JAY);
 
-        request.setBuilding(Building.JOHN_JAY);
-
-        Log.i("DensityRequest", request.toString());
+        Log.i("Density Request URL", request.toString());
         request.execute();
     }
 

@@ -1,7 +1,11 @@
 package com.adicu.density;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,8 +18,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import static com.adicu.density.RequestParameter.*;
 
@@ -51,22 +55,27 @@ public class DensityRequest extends AsyncTask<Object, Void, Boolean>{
     private Building mBuilding;
 
     // JSONObject representing the data from the most recent request made.
-    private JSONObject mJSONObject;
+    private JSONObject mRequestJSON;
+
+    // Context to return data to.
+    private LocationListAdapter mAdapter;
 
     /**
      * Creates an HTTP request with default time interval set to latest and no grouping.
      */
-    public DensityRequest() {
+    public DensityRequest(LocationListAdapter adapter) {
         mTimeInterval = TimeInterval.LATEST;
+        mAdapter = adapter;
     }
 
     /**
      * Creates an HTTP request with the desired parameters.
      * @param timeInterval the time interval to fetch data from.
      */
-    public DensityRequest(TimeInterval timeInterval, Grouping grouping) {
+    public DensityRequest(LocationListAdapter adapter, TimeInterval timeInterval, Grouping grouping) {
         mTimeInterval = timeInterval;
         mGrouping = grouping;
+        mAdapter = adapter;
     }
 
     /**
@@ -96,7 +105,7 @@ public class DensityRequest extends AsyncTask<Object, Void, Boolean>{
             while((inputString = br.readLine()) != null) {
                 sb.append(inputString);
             }
-            mJSONObject = new JSONObject(sb.toString());
+            mRequestJSON = new JSONObject(sb.toString());
 
             isFetchSuccess = true;
         }
@@ -113,7 +122,9 @@ public class DensityRequest extends AsyncTask<Object, Void, Boolean>{
     }
 
     /**
-     * When the request has finished execution, do something.
+     * When the request has finished execution, extracts the JSON data from the request,
+     * encapsulates it in an ArrayList of DensityData, and updates the information in the adapter
+     * and list view.
      * @param isSuccessful true if request was successfully executed; false otherwise.
      */
     @Override
@@ -121,14 +132,37 @@ public class DensityRequest extends AsyncTask<Object, Void, Boolean>{
         super.onPostExecute(isSuccessful);
 
         if (isSuccessful) {
-            Log.i("DensityRequest", "Fetched successfully\n" + mJSONObject.toString());
+            Log.i("DensityRequest", "Fetched successfully\n" + mRequestJSON.toString());
         }
         else {
             Log.i("DensityRequest", "Did not fetch successfully.");
         }
-    }
 
-    // Getters and setters for request parameters.
+        // Make temporary ArrayList of data (just location names for now).
+        ArrayList<DensityData> densityData = new ArrayList<>();
+        try {
+            JSONArray dataArray = mRequestJSON.getJSONArray("data");
+            for (int i = 0; i < dataArray.length(); i++) {
+                JSONObject data = dataArray.getJSONObject(i);
+                int clientCount = data.getInt("client_count");
+                String dumpTime = data.getString("dump_time");
+                int groupId = data.getInt("group_id");
+                String groupName = data.getString("group_name");
+                int parentId = data.getInt("parent_id");
+                String parentName = data.getString("parent_name");
+                double percentFull = data.getDouble("percent_full");
+                DensityData d = new DensityData(clientCount, dumpTime, groupId, groupName, parentId,
+                        parentName, percentFull);
+                densityData.add(d);
+            }
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        // Update the data in the list view.
+        mAdapter.update(densityData);
+    }
 
     /**
      * Returns the start time or null if start time has not been set.

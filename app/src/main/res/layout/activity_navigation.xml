@@ -7,9 +7,28 @@
     android:layout_height="match_parent"
     tools:context=".NavigationActivity">
 
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <!-- Displays list of study spaces (no ordering/filtering for now) -->
+        <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:id="@+id/locationListView"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/loadingText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text = "@string/loading_text"/>
+    </LinearLayout>
+
     <!-- As the main content view, the view below consumes the entire
          space available using match_parent in both dimensions. -->
-    <FrameLayout
+    <!--<FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -24,31 +43,51 @@
                 <TextView
                     android:layout_column="1"
                     android:text="Butler 2"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:padding="30dip" />
-                <TextView
-                    android:text="80%"
-                    android:textSize="20dp"
-                    android:gravity="right"
-                    android:padding="30dip" />
-                    />
+                <ProgressBar
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="250dp"
+                    android:layout_height="80dp"
+                    android:progressDrawable="@android:drawable/progress_horizontal"
+                    android:progress="40"
+                    android:padding="25dip"
+                    android:id="@+id/progressBar"
+                    android:max="100"
+                    android:layout_column="1" />
+
             </TableRow>
 
             <TableRow>
                 <TextView
                     android:layout_column="1"
                     android:text="John Jay"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:padding="30dip" />
                 <TextView
                     android:text="30%"
                     android:textSize="20dp"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:padding="30dip" />
                 />
             </TableRow>
+
+            <!--<TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ProgressBar
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="250dp"
+                    android:layout_height="40dp"
+                    android:progress="20"
+                    android:padding="30dip"
+                    android:id="@+id/progressBar"
+                    android:layout_column="1" />
+            </TableRow>-->
+
         </TableLayout>
-    </FrameLayout>
+    </FrameLayout>-->
 
     <!-- android:layout_gravity="start" tells DrawerLayout to treat
          this as a sliding drawer on the left side for left-to-right

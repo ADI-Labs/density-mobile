@@ -2,20 +2,25 @@
 <!-- Represents one cell in the location list view -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-    <!-- Location name text view -->
+                android:layout_height="match_parent"
+    android:layout_alignLeft="@id/navigation_drawer"
+    android:layout_alignTop="@id/navigation_drawer">
+    <!-- Location name display -->
     <TextView
         android:id="@+id/locationName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textStyle="bold"/>
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:layout_alignLeft="@id/navigation_drawer"
+        android:layout_alignTop="@id/navigation_drawer"/>
 
+    <!-- Location density display -->
     <TextView
         android:id="@+id/locationDensity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/locationName"
-        android:layout_marginTop="5dp"
-        android:textSize="12sp"/>
+        android:layout_marginBottom="5dp"
+        android:textSize="24sp"/>
 </RelativeLayout>

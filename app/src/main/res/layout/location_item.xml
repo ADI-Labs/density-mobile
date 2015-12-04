@@ -4,6 +4,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:padding="13dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
                 android:layout_alignLeft="@id/navigation_drawer"
                 android:layout_alignTop="@id/navigation_drawer">
 
@@ -14,18 +19,18 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:padding="10dp"/>
+        android:textColor="@color/gray" />
 
     <ProgressBar
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_below="@id/locationName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:progressDrawable="@android:drawable/progress_horizontal"
-        android:progress="20"
-        android:padding="25dip"
+        android:progressDrawable="@drawable/progress_bar"
+        android:paddingTop="10dp"
         android:id="@+id/percentageBar"
         android:max="100"
+        android:indeterminate="false"
         android:layout_column="1" />
 
     <!-- Location density display -->

@@ -1,6 +1,7 @@
 package com.adicu.density;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,9 @@ public class LocationListAdapter extends BaseAdapter {
             itemView = (RelativeLayout) convertView;
         }
 
+        Typeface tf = Typeface.createFromAsset(mContext.getAssets(), "fonts/Lato2OFL/Lato-Medium.ttf");
         TextView locationNameView = (TextView) itemView.findViewById(R.id.locationName);
+        locationNameView.setTypeface(tf);
         String name = mDensityData.get(position).getGroupName();
         locationNameView.setText(name);
         ProgressBar percentageBar = (ProgressBar) itemView.findViewById(R.id.percentageBar);

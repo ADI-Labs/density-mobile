@@ -133,6 +133,7 @@ public class NavigationActivity extends AppCompatActivity
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
+        actionBar.hide();
     }
 
 
@@ -143,7 +144,7 @@ public class NavigationActivity extends AppCompatActivity
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
             getMenuInflater().inflate(R.menu.navigation, menu);
-            restoreActionBar();
+
             return true;
         }
         return super.onCreateOptionsMenu(menu);

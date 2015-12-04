@@ -131,10 +131,7 @@ public class DensityRequest extends AsyncTask<Object, Void, Boolean>{
     protected void onPostExecute(Boolean isSuccessful) {
         super.onPostExecute(isSuccessful);
 
-        if (isSuccessful) {
-            Log.i("DensityRequest", "Fetched successfully\n" + mRequestJSON.toString());
-        }
-        else {
+        if (!isSuccessful) {
             Log.i("DensityRequest", "Did not fetch successfully.");
         }
 

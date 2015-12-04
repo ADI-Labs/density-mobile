@@ -1,43 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Represents one cell in the location list view -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="13dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_alignLeft="@id/navigation_drawer"
-                android:layout_alignTop="@id/navigation_drawer">
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
 
-    <!-- Location name display -->
-    <TextView
-        android:id="@+id/locationName"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/gray" />
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="13dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignLeft="@id/navigation_drawer"
+                    android:layout_alignTop="@id/navigation_drawer"
+                    android:background="@color/white">
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_below="@id/locationName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:progressDrawable="@drawable/progress_bar"
-        android:paddingTop="10dp"
-        android:id="@+id/percentageBar"
-        android:max="100"
-        android:indeterminate="false"
-        android:layout_column="1" />
+        <!-- Location name display -->
+        <TextView
+            android:id="@+id/locationName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/gray" />
 
-    <!-- Location density display -->
-    <TextView
-        android:id="@+id/locationDensity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/locationName"
-        android:textSize="20sp"/>
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_below="@id/locationName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progressDrawable="@drawable/progress_bar"
+            android:paddingTop="10dp"
+            android:id="@+id/percentageBar"
+            android:max="100"
+            android:indeterminate="false"
+            android:layout_column="1" />
+
+        <!-- Location density display -->
+        <TextView
+            android:id="@+id/locationDensity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/locationName"
+            android:textSize="20sp"/>
+    </RelativeLayout>
 </RelativeLayout>

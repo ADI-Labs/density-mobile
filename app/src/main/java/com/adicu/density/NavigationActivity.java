@@ -88,7 +88,6 @@ public class NavigationActivity extends AppCompatActivity
 //
 //        request.setBuilding(Building.JOHN_JAY);
 
-        Log.i("Density Request URL", request.toString());
         request.execute();
     }
 

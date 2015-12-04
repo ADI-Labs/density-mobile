@@ -12,7 +12,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -65,6 +67,14 @@ public class NavigationActivity extends AppCompatActivity
         LocationListAdapter adapter = new LocationListAdapter(this, new ArrayList<DensityData>());
         mLocationListView.setAdapter(adapter);
 
+        // Add listener to respond to item click.
+        mLocationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                showPopup(view);
+            }
+        });
+
         // Test create API url.
         DensityRequest request = new DensityRequest(adapter, TimeInterval.LATEST, null);
 
@@ -80,6 +90,19 @@ public class NavigationActivity extends AppCompatActivity
 
         Log.i("Density Request URL", request.toString());
         request.execute();
+    }
+
+    /**
+     * Shows a popup for a list view element on click.
+     * @param v the view that was clicked.
+     */
+    private void showPopup(View v) {
+        // Extract location name.
+        TextView locationTextView = (TextView) v.findViewById(R.id.locationName);
+        String locationName = locationTextView.getText().toString();
+
+        // Get hours.
+
     }
 
     @Override

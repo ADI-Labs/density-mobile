@@ -1,5 +1,7 @@
 package com.adicu.density;
 
+import java.util.Date;
+
 /**
  * Represents data that can be pulled from Density.
  */
@@ -86,6 +88,8 @@ public class RequestParameter {
         private String name;
         private int id;
         private String urlFragment;
+        private Date openTime;
+        private Date closeTime;
 
         /**
          * Creates a building with a name and id.

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 
@@ -49,6 +50,8 @@ public class LocationListAdapter extends BaseAdapter {
         TextView locationNameView = (TextView) itemView.findViewById(R.id.locationName);
         String name = mDensityData.get(position).getGroupName();
         locationNameView.setText(name);
+        ProgressBar percentageBar = (ProgressBar) itemView.findViewById(R.id.percentageBar);
+        percentageBar.setProgress((int)mDensityData.get(position).getPercentFull());
         return itemView;
     }
 

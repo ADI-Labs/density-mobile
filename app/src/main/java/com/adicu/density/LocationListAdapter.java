@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.ProgressBar;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Adapter that converts data to location list view.
@@ -22,9 +23,15 @@ public class LocationListAdapter extends BaseAdapter {
     // Maximum allowed percentage fullness.
     private static final int MAX_PERCENTAGE = 100;
 
+    private HashMap<String, String> replacedWords;
+
     public LocationListAdapter(Context context, ArrayList<DensityData> locations) {
         mContext = context;
         mDensityData = locations;
+
+        replacedWords = new HashMap<>();
+        replacedWords.put("stk", "Stacks");
+        replacedWords.put("301", "Reference");
     }
 
     public int getCount() {
@@ -58,6 +65,14 @@ public class LocationListAdapter extends BaseAdapter {
 
         // Set location name.
         String name = mDensityData.get(position).getGroupName();
+
+        // Check for words to replace.
+        for (String word : replacedWords.keySet()) {
+            if (name.contains(word)) {
+                name = name.replace(word, replacedWords.get(word));
+            }
+        }
+
         locationNameView.setText(name);
 
         // Set percentage fullness text.
@@ -67,6 +82,7 @@ public class LocationListAdapter extends BaseAdapter {
         if (percentageFull > MAX_PERCENTAGE) {
             percentageFull = MAX_PERCENTAGE;
         }
+
         TextView percentageFullView = (TextView) itemView.findViewById(R.id.percentageFull);
         percentageFullView.setText(Integer.toString(percentageFull) + "%");
 

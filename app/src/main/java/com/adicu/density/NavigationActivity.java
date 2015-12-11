@@ -1,8 +1,8 @@
 package com.adicu.density;
 
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,10 +51,15 @@ public class NavigationActivity extends AppCompatActivity
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
+        // Lock drawer for now (remove in the future if you want the drawer).
+        DrawerLayout drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
         mTabNames = getResources().getStringArray(R.array.tabs_name_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.navigation_drawer);
 
+        restoreActionBar();
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
@@ -129,10 +134,10 @@ public class NavigationActivity extends AppCompatActivity
 
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+
+        // Show title
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
-        actionBar.hide();
     }
 
 
@@ -146,6 +151,7 @@ public class NavigationActivity extends AppCompatActivity
 
             return true;
         }
+
         return super.onCreateOptionsMenu(menu);
     }
 

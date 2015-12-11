@@ -48,13 +48,24 @@ public class LocationListAdapter extends BaseAdapter {
             itemView = (RelativeLayout) convertView;
         }
 
+        // Makes custom Density font.
         Typeface tf = Typeface.createFromAsset(mContext.getAssets(), "fonts/Lato2OFL/Lato-Medium.ttf");
         TextView locationNameView = (TextView) itemView.findViewById(R.id.locationName);
         locationNameView.setTypeface(tf);
+
+        // Set location name.
         String name = mDensityData.get(position).getGroupName();
         locationNameView.setText(name);
+
+        // Set percentage fullness text.
+        int percentageFull = (int) Math.round(mDensityData.get(position).getPercentFull());
+        TextView percentageFullView = (TextView) itemView.findViewById(R.id.percentageFull);
+        percentageFullView.setText(Integer.toString(percentageFull) + "%");
+
+        // Set progress bar percentage.
         ProgressBar percentageBar = (ProgressBar) itemView.findViewById(R.id.percentageBar);
         percentageBar.setProgress((int)mDensityData.get(position).getPercentFull());
+
         return itemView;
     }
 

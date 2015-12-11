@@ -19,6 +19,9 @@ public class LocationListAdapter extends BaseAdapter {
     private Context mContext;
     private ArrayList<DensityData> mDensityData;
 
+    // Maximum allowed percentage fullness.
+    private static final int MAX_PERCENTAGE = 100;
+
     public LocationListAdapter(Context context, ArrayList<DensityData> locations) {
         mContext = context;
         mDensityData = locations;
@@ -59,6 +62,11 @@ public class LocationListAdapter extends BaseAdapter {
 
         // Set percentage fullness text.
         int percentageFull = (int) Math.round(mDensityData.get(position).getPercentFull());
+
+        // Handle cases where Density doesn't realize that having more than 100% is silly.
+        if (percentageFull > MAX_PERCENTAGE) {
+            percentageFull = MAX_PERCENTAGE;
+        }
         TextView percentageFullView = (TextView) itemView.findViewById(R.id.percentageFull);
         percentageFullView.setText(Integer.toString(percentageFull) + "%");
 
